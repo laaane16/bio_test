@@ -11,21 +11,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Шаг 1: Настройка Node.js
+      # Шаг 1: Открытие репозитория
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Шаг 2: Настройка Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18.19.0'
 
-      # Шаг 2: Установка зависимостей
+      # Шаг 3: Установка зависимостей
       - name: Install dependencies
         run: npm install
 
-      # Шаг 3: Сборка проекта
+      # Шаг 4: Сборка проекта
       - name: Build project
         run: npm run build
 
-      # Шаг 4: Передача файлов для деплоя
+      # Шаг 5: Передача файлов для деплоя
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v4
         with:
@@ -36,7 +40,6 @@ jobs:
     name: Deploy
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
 
     steps:
       # Шаг 1: Скачивание собранного проекта
